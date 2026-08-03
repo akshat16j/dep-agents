@@ -2,6 +2,11 @@ import urllib.request, json
 from urllib.parse import urlparse
 from collections import Counter
 from packaging.version import parse
+import os
+from dotenv import load_dotenv
+load_dotenv()
+token = os.getenv("GITHUB_TOKEN")
+api_key = os.getenv("GEMINI_API_KEY")
 
 def get_github_repo(pkg):
     url = f"https://pypi.org/pypi/{pkg}/json"
@@ -23,8 +28,6 @@ def get_github_repo(pkg):
             
     return github
 
-token = open(".env").read().split("=")[1].strip()
-
 def get_releases(owner, repo, token):
     url = f"https://api.github.com/repos/{owner}/{repo}/releases?per_page=100"
     req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
@@ -39,5 +42,9 @@ def get_release_range(releases,from_version,to_version):
 
 versions = get_release_range(releases,"2.28.0","2.31.0")
 
-for v in versions:
-    print(v["tag_name"])
+# for v in versions:
+#     print(v["tag_name"])
+
+if __name__ == "__main__":
+    for p in ["requests", "pydantic", "numpy", "cowsay"]:
+        print(p, get_github_repo(p))
