@@ -1,0 +1,675 @@
+{
+  "urllib3": {
+    "meta": {
+      "repo": "urllib3/urllib3",
+      "releases_n": 25,
+      "releases_ch": 41181,
+      "changelog_file": "CHANGES.rst",
+      "sections_n": 21,
+      "sections_ch": 22118,
+      "retrieval": "semantic_topk",
+      "chunks": 61,
+      "corpus_ch": 12716,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "urllib3.PoolManager",
+        "line": 4,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "urllib3.PoolManager.urlopen",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "urllib3.HTTPResponse.from_httplib",
+        "line": 6,
+        "breaking": false,
+        "evidence_tag": "2.0.0",
+        "evidence_quote": "Removed urllib3.HTTPResponse.from_httplib (#2648).",
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none",
+        "note": "UNGROUNDED \u2014 claim not supported by retrieved notes; downgraded"
+      },
+      {
+        "symbol": "urllib3.HTTPResponse",
+        "line": 7,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "urllib3.HTTPResponse.getheaders",
+        "line": 8,
+        "breaking": false,
+        "evidence_tag": "2.0.0",
+        "evidence_quote": "Deprecated HTTPResponse.getheaders() and HTTPResponse.getheader() which will be removed in urllib3 v2.1.0. Instead use HTTPResponse.headers and HTTPResponse.headers.get(name, default). (#1543, #2814).",
+        "patch": "resp.headers.items()",
+        "confidence": 0.9,
+        "grounded": false,
+        "evidence_source": "none",
+        "note": "UNGROUNDED \u2014 claim not supported by retrieved notes; downgraded"
+      }
+    ]
+  },
+  "attrs": {
+    "meta": {
+      "repo": "python-attrs/attrs",
+      "releases_n": 6,
+      "releases_ch": 23667,
+      "changelog_file": "CHANGELOG.md",
+      "sections_n": 6,
+      "sections_ch": 14844,
+      "retrieval": "semantic_topk",
+      "chunks": 49,
+      "corpus_ch": 12586,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "attrs.set_run_validators",
+        "line": 3,
+        "breaking": true,
+        "evidence_tag": "## 21.3.0",
+        "evidence_quote": "Added new context manager `attrs.validators.disabled()` and functions `attrs.validators.(set|get)_disabled()`. They deprecate `attrs.(set|get)_run_validators()`. All functions are interoperable and modify the same internal state. They are not \u2013 and never were \u2013 thread-safe, though.",
+        "patch": "attrs.validators.set_disabled(True)",
+        "confidence": 0.9,
+        "grounded": true,
+        "evidence_source": "releases"
+      },
+      {
+        "symbol": "attrs.field",
+        "line": 7,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "numpy": {
+    "meta": {
+      "repo": "numpy/numpy",
+      "releases_n": 32,
+      "releases_ch": 474145,
+      "changelog_file": null,
+      "sections_n": 0,
+      "sections_ch": 0,
+      "retrieval": "semantic_topk",
+      "chunks": 53,
+      "corpus_ch": 12685,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "numpy.polynomial.polybase.PolyBase",
+        "line": 3,
+        "breaking": false,
+        "evidence_tag": "v1.21.0",
+        "evidence_quote": "The class PolyBase has been removed (deprecated in numpy 1.9.0).\nPlease use the abstract ABCPolyBase class instead.",
+        "patch": "numpy.polynomial.polybase.ABCPolyBase()",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none",
+        "note": "UNGROUNDED \u2014 claim not supported by retrieved notes; downgraded"
+      },
+      {
+        "symbol": "numpy.array",
+        "line": 4,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "numpy.zeros",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "flask": {
+    "meta": {
+      "repo": "pallets/flask",
+      "releases_n": 17,
+      "releases_ch": 5397,
+      "changelog_file": "CHANGES.rst",
+      "sections_n": 15,
+      "sections_ch": 21864,
+      "retrieval": "semantic_topk",
+      "chunks": 75,
+      "corpus_ch": 12803,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "flask.Flask",
+        "line": 4,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "flask.safe_join",
+        "line": 5,
+        "breaking": true,
+        "evidence_tag": "2.1.0",
+        "evidence_quote": "-   ``safe_join`` is removed, use ``werkzeug.utils.safe_join``\n    instead.",
+        "patch": "werkzeug.utils.safe_join(\"static\", \"a.txt\")",
+        "confidence": 1.0,
+        "grounded": true,
+        "evidence_source": "changelog_file"
+      },
+      {
+        "symbol": "flask.json.htmlsafe_dumps",
+        "line": 6,
+        "breaking": true,
+        "evidence_tag": "2.3.0",
+        "evidence_quote": "-   The ``json.htmlsafe_dumps`` and ``htmlsafe_dump`` functions are removed.",
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": true,
+        "evidence_source": "changelog_file"
+      },
+      {
+        "symbol": "flask.jsonify",
+        "line": 7,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "jinja2": {
+    "meta": {
+      "repo": "pallets/jinja",
+      "releases_n": 10,
+      "releases_ch": 2643,
+      "changelog_file": "CHANGES.rst",
+      "sections_n": 8,
+      "sections_ch": 9449,
+      "retrieval": "version_scope_only",
+      "chunks": 96,
+      "corpus_ch": 12934,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "jinja2.Environment",
+        "line": 4,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "jinja2.Template",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "jinja2.contextfunction",
+        "line": 6,
+        "breaking": true,
+        "evidence_tag": "## 3.1.0",
+        "evidence_quote": "-   Remove previously deprecated code. :pr:`1544`\n\n    -   ``WithExtension`` and ``AutoEscapeExtension`` are built-in now.\n    -   ``contextfilter`` and ``contextfunction`` are replaced by\n        ``pass_context``. ``evalcontextfilter`` and\n        ``evalcontextfunction`` are replaced by ``pass_eval_context``.\n        ``environmentfilter`` and ``environmentfunction`` are replaced\n        by ``pass_environment``.",
+        "patch": "jinja2.pass_context(lambda c: c)",
+        "confidence": 1.0,
+        "grounded": true,
+        "evidence_source": "changelog_file"
+      },
+      {
+        "symbol": "jinja2.unicode_urlencode",
+        "line": 7,
+        "breaking": true,
+        "evidence_tag": "## 3.1.0",
+        "evidence_quote": "-   Remove previously deprecated code. :pr:`1544`\n\n    -   ``WithExtension`` and ``AutoEscapeExtension`` are built-in now.\n    -   ``contextfilter`` and ``contextfunction`` are replaced by\n        ``pass_context``. ``evalcontextfilter`` and\n        ``evalcontextfunction`` are replaced by ``pass_eval_context``.\n        ``environmentfilter`` and ``environmentfunction`` are replaced\n        by ``pass_environment``.\n    -   ``Markup`` and ``escape`` should be imported from MarkupSafe.\n    -   Compiled templates from very old Jinja versions may need to be\n        recompiled.\n    -   Legacy resolve mode for ``Context`` subclasses is no longer\n        supported. Override ``resolve_or_missing`` instead of\n        ``resolve``.\n    -   ``unicode_urlencode`` is renamed to ``url_quote``.",
+        "patch": "jinja2.url_quote(\"a b\")",
+        "confidence": 1.0,
+        "grounded": true,
+        "evidence_source": "changelog_file"
+      }
+    ]
+  },
+  "click": {
+    "meta": {
+      "repo": "pallets/click",
+      "releases_n": 8,
+      "releases_ch": 1736,
+      "changelog_file": "CHANGES.md",
+      "sections_n": 6,
+      "sections_ch": 17629,
+      "retrieval": "semantic_topk",
+      "chunks": 95,
+      "corpus_ch": 13001,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "click.get_terminal_size",
+        "line": 3,
+        "breaking": true,
+        "evidence_tag": "## 8.1.0",
+        "evidence_quote": "- `get_terminal_size` is removed, use\n  `shutil.get_terminal_size` instead.",
+        "patch": "shutil.get_terminal_size()",
+        "confidence": 1.0,
+        "grounded": true,
+        "evidence_source": "changelog_file"
+      },
+      {
+        "symbol": "click.get_os_args",
+        "line": 4,
+        "breaking": true,
+        "evidence_tag": "## 8.1.0",
+        "evidence_quote": "- `get_os_args` is removed, use `sys.argv[1:]` instead.",
+        "patch": "sys.argv[1:]",
+        "confidence": 1.0,
+        "grounded": true,
+        "evidence_source": "changelog_file"
+      },
+      {
+        "symbol": "click.echo",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "click.option",
+        "line": 7,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "markupsafe": {
+    "meta": {
+      "repo": "pallets/markupsafe",
+      "releases_n": 4,
+      "releases_ch": 1008,
+      "changelog_file": "CHANGES.rst",
+      "sections_n": 3,
+      "sections_ch": 830,
+      "retrieval": "version_scope_only",
+      "chunks": 21,
+      "corpus_ch": 1997,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "markupsafe.soft_unicode",
+        "line": 4,
+        "breaking": true,
+        "evidence_tag": "## 2.1.0",
+        "evidence_quote": "-   Remove ``soft_unicode``, which was previously deprecated. Use\n    ``soft_str`` instead. :pr:`261`",
+        "patch": "markupsafe.soft_str(\"x\")",
+        "confidence": 1.0,
+        "grounded": true,
+        "evidence_source": "changelog_file"
+      },
+      {
+        "symbol": "markupsafe.Markup",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "markupsafe.escape",
+        "line": 6,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "werkzeug": {
+    "meta": {
+      "repo": "pallets/werkzeug",
+      "releases_n": 17,
+      "releases_ch": 4897,
+      "changelog_file": "CHANGES.rst",
+      "sections_n": 12,
+      "sections_ch": 32842,
+      "retrieval": "semantic_topk",
+      "chunks": 76,
+      "corpus_ch": 12835,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "werkzeug.wsgi.make_line_iter",
+        "line": 4,
+        "breaking": true,
+        "evidence_tag": "2.3.0",
+        "evidence_quote": "-   Deprecate ``werkzeug.wsgi.make_line_iter`` and ``make_chunk_iter``. :pr:`2613`",
+        "patch": "",
+        "confidence": 0.9,
+        "grounded": true,
+        "evidence_source": "changelog_file"
+      },
+      {
+        "symbol": "werkzeug.utils.safe_join",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "werkzeug.Response",
+        "line": 6,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "pydantic": {
+    "meta": {
+      "repo": "pydantic/pydantic",
+      "releases_n": 23,
+      "releases_ch": 60880,
+      "changelog_file": "HISTORY.md",
+      "sections_n": 25,
+      "sections_ch": 13165,
+      "retrieval": "semantic_topk",
+      "chunks": 110,
+      "corpus_ch": 13294,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "pydantic.BaseModel",
+        "line": 6,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 0.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "pydantic.BaseModel.dict",
+        "line": 7,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 0.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "pandas": {
+    "meta": {
+      "repo": "pandas-dev/pandas",
+      "releases_n": 6,
+      "releases_ch": 4002,
+      "changelog_file": null,
+      "sections_n": 0,
+      "sections_ch": 0,
+      "retrieval": "version_scope_only",
+      "chunks": 6,
+      "corpus_ch": 4078,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "pandas.DataFrame",
+        "line": 3,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 0.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "pandas.DataFrame",
+        "line": 4,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 0.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "pandas.DataFrame.append",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 0.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "pandas.read_csv",
+        "line": 6,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 0.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "requests": {
+    "meta": {
+      "repo": "psf/requests",
+      "releases_n": 5,
+      "releases_ch": 3574,
+      "changelog_file": "HISTORY.md",
+      "sections_n": 5,
+      "sections_ch": 2336,
+      "retrieval": "version_scope_only",
+      "chunks": 31,
+      "corpus_ch": 5533,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "requests.get",
+        "line": 3,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "requests.post",
+        "line": 4,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "requests.Session",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "httpx": {
+    "meta": {
+      "repo": "encode/httpx",
+      "releases_n": 5,
+      "releases_ch": 3278,
+      "changelog_file": "CHANGELOG.md",
+      "sections_n": 5,
+      "sections_ch": 3573,
+      "retrieval": "version_scope_only",
+      "chunks": 57,
+      "corpus_ch": 7197,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "httpx.get",
+        "line": 3,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "httpx.Client",
+        "line": 4,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "httpx.AsyncClient",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  },
+  "scikit-learn": {
+    "meta": {
+      "repo": "scikit-learn/scikit-learn",
+      "releases_n": 8,
+      "releases_ch": 3434,
+      "changelog_file": null,
+      "sections_n": 0,
+      "sections_ch": 0,
+      "retrieval": "version_scope_only",
+      "chunks": 8,
+      "corpus_ch": 3520,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdicts": [
+      {
+        "symbol": "sklearn.linear_model.LogisticRegression",
+        "line": 5,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      },
+      {
+        "symbol": "sklearn.metrics.accuracy_score",
+        "line": 6,
+        "breaking": false,
+        "evidence_tag": null,
+        "evidence_quote": null,
+        "patch": "",
+        "confidence": 1.0,
+        "grounded": false,
+        "evidence_source": "none"
+      }
+    ]
+  }
+}
