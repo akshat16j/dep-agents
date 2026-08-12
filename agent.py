@@ -8,7 +8,17 @@ from ast_walker import scan_repo
 from retrieval import select, render, sections_from_changelog
 
 load_dotenv()
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+MODEL = "gemini-3.5-flash-lite"
+
+_client = None
+
+
+def client():
+    """Built on first use, not on import — `import agent` must not require an API key."""
+    global _client
+    if _client is None:
+        _client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    return _client
 
 
 def _norm(s):
@@ -58,7 +68,7 @@ def ask(package, from_version, to_version, chunks, usages, model):
         changelog_text=render(chunks),
         usages_text=usages_text,
     )
-    resp = client.models.generate_content(model=model, contents=prompt)
+    resp = client().models.generate_content(model=model, contents=prompt)
     raw = resp.text.strip()
     if raw.startswith("```"):
         raw = raw.split("```")[1]
@@ -100,7 +110,7 @@ def gather(package, from_version, to_version, log=print):
 
 
 def analyze(package, from_version, to_version, import_name=None, repo_path="eval_targets",
-            model="gemini-3.5-flash-lite", log=print):
+            model=MODEL, log=print):
     """One upgrade, one LLM call. Returns (verdicts, meta)."""
     usages = scan_repo(repo_path, package, import_name)
     if not usages:
@@ -126,6 +136,30 @@ def analyze(package, from_version, to_version, import_name=None, repo_path="eval
     return verdicts, meta
 
 
+def run_check(path, package, from_version, to_version, import_name=None, model=MODEL,
+              log=lambda *a, **k: None):
+    """Public entry point: analyse one upgrade against one repo. Importable, no side effects.
+
+    Returns a single JSON-serialisable dict — the shape an MCP tool can hand straight back.
+    """
+    verdicts, meta = analyze(package, from_version, to_version, import_name, path, model, log)
+    if meta.get("error") == "NO_USAGES_FOUND":
+        return {"verdict": "NO_USAGES_FOUND", "package": package,
+                "note": "Static analysis found no calls into this package. "
+                        "Check the import name before treating this as safe."}
+    if meta.get("error"):
+        return {"verdict": "ERROR", "package": package, "error": meta["error"]}
+
+    grounded = sum(bool(v.get("grounded")) for v in verdicts)
+    breaking = [v for v in verdicts if v.get("breaking")]
+    return {"package": package, "from": from_version, "to": to_version,
+            "model": model, "retrieval": meta.get("retrieval"),
+            "chunks": meta.get("chunks"), "changelog_file": meta.get("changelog_file"),
+            "verdicts": verdicts,
+            "breaking_count": len(breaking),
+            "grounded_rate": grounded / max(len(verdicts), 1)}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("package", nargs="?", default="pydantic")
@@ -133,7 +167,7 @@ def main():
     ap.add_argument("to_version", nargs="?", default="2.0.0")
     ap.add_argument("--import-name", default=None)
     ap.add_argument("--repo-path", default="eval_targets")
-    ap.add_argument("--model", default="gemini-3.5-flash-lite")
+    ap.add_argument("--model", default=MODEL)
     args = ap.parse_args()
 
     verdicts, meta = analyze(args.package, args.from_version, args.to_version,
