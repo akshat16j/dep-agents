@@ -1,7 +1,7 @@
-import urllib.request, urllib.error, json
+import urllib.request, urllib.error, json, re
 from urllib.parse import urlparse
 from collections import Counter
-from packaging.version import parse
+from packaging.version import parse, InvalidVersion
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -50,10 +50,41 @@ def get_changelog_file(owner, repo, token=None):
                 continue
     return None, None
 
+_TAG_NUM = re.compile(r"\d+(?:[._]\d+)*")
+
+def tag_version(tag):
+    """Best-effort version from a release tag, or None if it carries none.
+
+    Release tags are not PEP 440: 'v2.0.0', 'rel_2_0_52' (SQLAlchemy),
+    'release-1.2.3'. Drop any leading prefix, then try the remainder as-is so
+    pre-release suffixes survive ('1.2.3-beta1' -> 1.2.3b1); only if that fails
+    fall back to the bare numeric run with '_' read as a separator.
+    """
+    tag = (tag or "").strip()
+    first_digit = re.search(r"\d", tag)
+    if not first_digit:
+        return None
+    body = tag[first_digit.start():]
+    for candidate in (body, _TAG_NUM.search(body).group(0).replace("_", ".")):
+        try:
+            return parse(candidate)
+        except InvalidVersion:
+            continue
+    return None
+
 def get_release_range(releases,from_version,to_version):
+    """Releases in (from_version, to_version], oldest first.
+
+    Tags that carry no parseable version are skipped — a single odd tag in the
+    repo's history must not sink the whole range.
+    """
     lo, hi = parse(from_version), parse(to_version)
-    selected = [r for r in releases if lo < parse(r["tag_name"].lstrip("v")) <= hi]
-    return sorted(selected, key=lambda r: parse(r["tag_name"].lstrip("v")))
+    selected = []
+    for r in releases:
+        v = tag_version(r.get("tag_name"))
+        if v is not None and lo < v <= hi:
+            selected.append((v, r))
+    return [r for _, r in sorted(selected, key=lambda pair: pair[0])]
 
 if __name__ == "__main__":
     for p in ["requests", "pydantic", "numpy", "cowsay"]:
