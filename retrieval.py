@@ -44,6 +44,17 @@ def _version_headings(text):
     return out, lines
 
 
+def has_version_headings(text):
+    """True if the file carries any version heading at all.
+
+    Separates two very different reasons a changelog yields zero sections: a real
+    changelog whose versions all fall outside the range, versus a pointer stub like
+    SQLAlchemy's CHANGES.rst ('MOVED', see doc/build/changelog/) that documents nothing.
+    """
+    heads, _ = _version_headings(text or "")
+    return bool(heads)
+
+
 def sections_from_changelog(text, from_version, to_version):
     """Split a CHANGELOG file on version headings, keep those in (from, to]."""
     heads, lines = _version_headings(text)

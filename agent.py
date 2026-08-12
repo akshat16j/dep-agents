@@ -5,7 +5,7 @@ from changelog import (get_github_repo, get_releases, get_release_range,
                        get_changelog_file)
 from prompt import PATCH_PROMPT
 from ast_walker import scan_repo
-from retrieval import select, render, sections_from_changelog
+from retrieval import select, render, sections_from_changelog, has_version_headings
 
 load_dotenv()
 MODEL = "gemini-3.5-flash-lite"
@@ -102,10 +102,18 @@ def gather(package, from_version, to_version, log=print):
     name, text = get_changelog_file(owner, repo, os.getenv("GITHUB_TOKEN"))
     secs = sections_from_changelog(text, from_version, to_version) if text else []
     entries.extend(secs)
-    meta.update({"changelog_file": name, "sections_n": len(secs),
+
+    # Say *why* the changelog axis contributed nothing. A pointer stub carrying no
+    # version headings is a source-coverage failure; a real changelog whose versions
+    # fall outside the range is not. Collapsing both to the filename hides the former.
+    described = name
+    if name and not secs:
+        kind = "no_sections_in_range" if has_version_headings(text) else "stub"
+        described = f"{name} — {kind} ({len(text or ''):,} chars, 0 sections)"
+    meta.update({"changelog_file": described, "sections_n": len(secs),
                  "sections_ch": sum(len(s["body"]) for s in secs)})
     log(f"  sources: releases {meta['releases_n']}/{meta['releases_ch']:,}ch + "
-        f"{name} {len(secs)}/{meta['sections_ch']:,}ch")
+        f"{described} {len(secs)}/{meta['sections_ch']:,}ch")
     return entries, meta
 
 
@@ -152,12 +160,28 @@ def run_check(path, package, from_version, to_version, import_name=None, model=M
 
     grounded = sum(bool(v.get("grounded")) for v in verdicts)
     breaking = [v for v in verdicts if v.get("breaking")]
-    return {"package": package, "from": from_version, "to": to_version,
+    grounded_rate = grounded / max(len(verdicts), 1)
+
+    # Absence of evidence is not evidence of safety. When nothing was grounded and
+    # nothing came back breaking, we did not clear the upgrade — we failed to retrieve
+    # anything to judge it against, and that must not render the same as a clean pass.
+    if grounded_rate == 0.0 and not breaking:
+        status = "INSUFFICIENT_EVIDENCE"
+        note = (f"No verifiable changelog evidence found for {package} "
+                f"{from_version}→{to_version}. This is NOT a safety verdict — "
+                f"the package may document breaking changes outside GitHub "
+                f"Releases and its changelog file.")
+    else:
+        status = "CHECKED"
+        note = None
+
+    return {"verdict": status, "note": note,
+            "package": package, "from": from_version, "to": to_version,
             "model": model, "retrieval": meta.get("retrieval"),
             "chunks": meta.get("chunks"), "changelog_file": meta.get("changelog_file"),
             "verdicts": verdicts,
             "breaking_count": len(breaking),
-            "grounded_rate": grounded / max(len(verdicts), 1)}
+            "grounded_rate": grounded_rate}
 
 
 def main():
