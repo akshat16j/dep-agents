@@ -83,7 +83,18 @@ def select(releases, usages, char_budget=CHAR_BUDGET, k=400):
     if total <= char_budget:
         return chunks, "version_scope_only"
 
-    symbols = sorted({u["symbol"] for u in usages})
+    symbols = sorted({u["symbol"] for u in usages if u.get("symbol")})
+    if not symbols:
+        # no symbols to rank against: encoding an empty query set makes the score
+        # matmul fail, so fall back to version-scoped chunks trimmed to the budget
+        picked, used = [], 0
+        for c in chunks:
+            if used + len(c["text"]) > char_budget:
+                break
+            picked.append(c)
+            used += len(c["text"])
+        return picked, "version_scope_truncated"
+
     queries = [s.replace(".", " ") for s in symbols]
 
     enc = _encoder()
